@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="1080" viewBox="0 0 1100 1080">
+<defs>
+  <marker id="arrow" markerWidth="9" markerHeight="9" refX="8" refY="4" orient="auto-start-reverse"><path d="M0 0L8 4L0 8" fill="none" stroke="#91a5bf" stroke-width="1.5"/></marker>
+  <marker id="green" markerWidth="9" markerHeight="9" refX="8" refY="4" orient="auto"><path d="M0 0L8 4L0 8" fill="none" stroke="#66dfbd" stroke-width="1.5"/></marker>
+  <style>
+    text { font-family: DejaVu Sans, sans-serif; fill: #e9edf5; text-anchor: middle; font-size: 24px; }
+    .box { fill: #1b2533; stroke: #41536b; stroke-width: 2; rx: 12; }
+    .gate { fill: #183c38; stroke: #66dfbd; stroke-width: 2; rx: 12; }
+    .line { fill: none; stroke: #91a5bf; stroke-width: 2; marker-end: url(#arrow); }
+    .allow { fill: none; stroke: #66dfbd; stroke-width: 2; marker-end: url(#green); }
+    .note { font-size: 18px; fill: #b8c8dd; }
+    .approved { font-size: 18px; fill: #66dfbd; }
+  </style>
+</defs>
+<rect width="1100" height="1080" fill="#10151f"/>
+<text x="550" y="48" font-size="25">SENTINEL / TWO ROUTES, ONE APPROVAL BOUNDARY</text>
+<text class="note" x="280" y="88">DESKTOP ROUTE</text><text class="note" x="820" y="88">WEB ROUTE</text>
+<rect class="box" x="100" y="110" width="360" height="80"/>
+<text x="280" y="159">Claude Desktop</text>
+<rect class="box" x="640" y="110" width="360" height="80"/>
+<text x="820" y="143">Claude Web</text><text class="note" x="820" y="170">Cloud connector</text>
+<path class="line" d="M280 190V280"/><text class="note" x="362" y="238">stdio</text>
+<path class="line" d="M820 190V250"/><text class="note" x="914" y="224">HTTPS + bearer</text>
+<rect class="box" x="100" y="280" width="360" height="90"/>
+<text x="280" y="333">stdio wrapper</text>
+<rect class="box" x="640" y="250" width="360" height="80"/>
+<text x="820" y="283">HTTPS tunnel</text><text class="note" x="820" y="310">Must support SSE</text>
+<path class="line" d="M820 330V400"/><text class="note" x="924" y="370">Loopback HTTP</text>
+<rect class="box" x="640" y="400" width="360" height="90"/>
+<text x="820" y="438">HTTP adapter</text><text class="note" x="820" y="468">127.0.0.1:8766/mcp</text>
+<path class="allow" d="M280 370V610"/><text class="approved" x="365" y="520">Only after Allow</text>
+<path class="allow" d="M820 490V610"/><text class="approved" x="910" y="562">Only after Allow</text>
+<rect class="box" x="100" y="610" width="360" height="90"/>
+<text x="280" y="648">Original stdio</text><text x="280" y="679">MCP server</text>
+<rect class="box" x="640" y="610" width="360" height="90"/>
+<text x="820" y="648">Original HTTP</text><text x="820" y="679">MCP server</text>
+<path class="line" d="M100 325H50V845H350"/>
+<text class="note" x="197" y="752">Private approval API</text><text class="note" x="197" y="778">127.0.0.1:8765</text>
+<path class="line" d="M1000 445H1050V845H750"/>
+<text class="note" x="904" y="778">Await decision</text>
+<rect class="gate" x="350" y="800" width="400" height="90"/>
+<text x="550" y="838">Approval queue</text><text class="note" x="550" y="869">One future per request</text>
+<path class="line" d="M535 890V960"/><path class="line" d="M565 960V890"/>
+<text class="note" x="704" y="932">Qt signal / callback</text>
+<rect class="gate" x="350" y="960" width="400" height="80"/>
+<text x="550" y="995">Native approval window</text><text class="note" x="550" y="1023">Allow once / Block request</text>
+</svg>

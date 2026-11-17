@@ -6,17 +6,7 @@ MCP uses JSON-RPC, but its two main transports have different process and networ
 
 Sentinel therefore becomes the configured MCP endpoint. The original server is reachable through the gateway only after a decision. This makes the approval point explicit and testable without impersonating Claude or decrypting its traffic.
 
-```mermaid
-flowchart LR
-    D[Claude Desktop] -->|stdio JSON-RPC| S[stdio wrapper]
-    S -->|authenticated loopback approval| Q[Approval queue]
-    S -->|only after Allow| P[original stdio server]
-    W[Claude Web / cloud connector] -->|HTTPS + bearer| T[HTTPS tunnel]
-    T -->|localhost:8766/mcp| H[HTTP adapter]
-    H -->|request awaits decision| Q
-    H -->|only after Allow| U[original HTTP MCP server]
-    Q <-->|Qt signals / event-loop callbacks| G[native approval window]
-```
+![Two transport routes and the shared approval boundary](diagrams/architecture.png)
 
 The tunnel exposes the data listener, never the control listener. Both listeners bind to loopback by default. Deploying the GUI elsewhere would change the meaning of "local user approval" and is outside this build.
 
@@ -34,23 +24,7 @@ The application does not use the MCP SDK as a proxy framework. It preserves the 
 
 ## Request lifecycle
 
-```mermaid
-stateDiagram-v2
-    [*] --> Validated
-    Validated --> Relay: bypass policy / response / notification
-    Validated --> Pending: request needs approval
-    Pending --> Allowed: explicit Allow before deadline
-    Pending --> Blocked: explicit Block
-    Pending --> Expired: decision deadline
-    Pending --> Cancelled: disconnect / cancellation / shutdown
-    Allowed --> Relay
-    Blocked --> Denial
-    Expired --> Denial
-    Cancelled --> NoForward
-    Relay --> [*]
-    Denial --> [*]
-    NoForward --> [*]
-```
+![Request lifecycle and fail-closed outcomes](diagrams/lifecycle.png)
 
 For each gated request:
 

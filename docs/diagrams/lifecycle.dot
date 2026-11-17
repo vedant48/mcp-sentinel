@@ -1,0 +1,26 @@
+digraph Lifecycle {
+  graph [rankdir=TB, bgcolor="#10151f", pad=0.4, nodesep=0.4, ranksep=0.55, fontname="DejaVu Sans", fontcolor="#e9edf5", label="REQUEST LIFECYCLE", labelloc=t, fontsize=22];
+  node [shape=box, style="rounded,filled", fillcolor="#1b2533", color="#41536b", fontcolor="#e9edf5", fontname="DejaVu Sans", fontsize=16, margin="0.22,0.18"];
+  edge [fontname="DejaVu Sans", fontsize=12, color="#91a5bf", fontcolor="#b8c8dd", arrowsize=0.7];
+  validated [label="Validate envelope"];
+  pending [label="Pending\nNot forwarded", fillcolor="#183c38", color="#66dfbd"];
+  allowed [label="Allowed", color="#66dfbd"];
+  blocked [label="Blocked", color="#f3a0ad"];
+  expired [label="Expired", color="#edcd8a"];
+  cancelled [label="Cancelled", color="#91a5bf"];
+  relay [label="Relay original request\nReturn upstream result", color="#66dfbd"];
+  denial [label="Return denial\nNo upstream execution", color="#f3a0ad"];
+  gone [label="Stop waiting\nNo forwarding"];
+  validated -> pending [label="Approval required"];
+  validated -> relay [label="Bypass policy /\nnotification / response", style=dashed];
+  pending -> allowed [label="Allow before deadline", color="#66dfbd"];
+  pending -> blocked [label="Block", color="#f3a0ad"];
+  pending -> expired [label="Timeout", color="#edcd8a"];
+  pending -> cancelled [label="Disconnect /\ncancel / shutdown"];
+  {rank=same; allowed; blocked; expired; cancelled;}
+  allowed -> relay;
+  blocked -> denial;
+  expired -> denial;
+  cancelled -> gone;
+  {rank=same; relay; denial; gone;}
+}
