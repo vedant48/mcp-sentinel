@@ -1,0 +1,16 @@
+
+=== Official MCP SDK client: stdio transport ===
+Processing request of type ListToolsRequest
+Connected. Available tools: echo, slow_echo
+Requesting echo('approve this one'). Waiting for Sentinel...
+Requesting echo('block this one'). Waiting for Sentinel...
+Processing request of type CallToolRequest
+RESULT approve this one: {"meta":null,"content":[{"type":"text","text":"Echo: approve this one","annotations":null,"meta":null}],"structuredContent":{"result":"Echo: approve this one"},"isError":false}
+DENIED / ERROR block this one: Blocked by user; request was not forwarded
+
+=== Official MCP SDK client: http transport ===
+Connected. Available tools: echo, slow_echo
+Requesting echo('approve this one'). Waiting for Sentinel...
+Requesting echo('block this one'). Waiting for Sentinel...
+RESULT approve this one: {"meta":null,"content":[{"type":"text","text":"Echo: approve this one","annotations":null,"meta":null}],"structuredContent":{"result":"Echo: approve this one"},"isError":false}
+DENIED / ERROR block this one: Blocked by user; request was not forwarded
