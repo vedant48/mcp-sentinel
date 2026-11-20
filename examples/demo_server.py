@@ -5,7 +5,7 @@ import asyncio
 
 from mcp.server.fastmcp import FastMCP
 
-mcp = FastMCP("Sentinel demo", host="127.0.0.1", port=9000, json_response=True)
+mcp = FastMCP("Sentinel demo", host="127.0.0.1", port=9000, json_response=False)
 
 
 @mcp.tool()
@@ -26,3 +26,4 @@ if __name__ == "__main__":
     parser.add_argument("--http", action="store_true")
     args = parser.parse_args()
     mcp.run(transport="streamable-http" if args.http else "stdio")
+
