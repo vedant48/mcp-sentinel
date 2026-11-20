@@ -18,6 +18,10 @@ DISCOVERY = frozenset(
         "resources/list",
         "resources/templates/list",
         "prompts/list",
+        # Extension capability probes (e.g. Anthropic's Toolbox client sends
+        # server/discover during connector checks). They negotiate protocol
+        # extensions and execute nothing, so they must stay ungated.
+        "server/discover",
     }
 )
 
@@ -114,3 +118,4 @@ class ApprovalQueue:
         self.closed = True
         for key in list(self.pending):
             self.decide(key, False, "Approval service shut down", "cancelled")
+
